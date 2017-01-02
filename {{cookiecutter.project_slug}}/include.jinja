@@ -1,0 +1,16 @@
+{% set is_github_org = cookiecutter.github_organization != '' -%}
+{% set github_repo = cookiecutter.project_slug | replace("_", "-") -%}
+{% if is_github_org %}
+    {% set repo_url = 'https://github.com/' + cookiecutter.github_organization + '/' + github_repo -%}
+    {% set image_name = cookiecutter.github_organization + '/' + github_repo -%}
+    {% set site_url = 'https://' + cookiecutter.github_organization + '.github.io/' + github_repo -%}
+    {% set github_owner = cookiecutter.github_organization -%}
+    {% set github_api = 'https://api.github.com/orgs/' + cookiecutter.github_organization + '/repos' -%}
+{% else %}
+    {% set repo_url = 'https://github.com/' + cookiecutter.github_username + '/' + github_repo -%}
+    {% set image_name = cookiecutter.github_username + '/' + github_repo -%}
+    {% set site_url = 'https://' + cookiecutter.github_username + '.github.io/' + github_repo -%}
+    {% set github_owner = cookiecutter.github_username -%}
+    {% set github_api = 'https://api.github.com/user/repos' -%}
+{% endif %}
+

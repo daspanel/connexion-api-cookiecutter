@@ -1,0 +1,14 @@
+{
+    "full_name": "Abner G Jacobsen",
+    "email": "admin@daspanel.com",
+    "author_site": "http://daspanel.com",
+    "github_username": "admindaspanel",
+    "github_organization": "daspanel",
+    "project_private": ["n", "y"],
+    "project_name": "API Server",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "project_short_description": "API server boilerplate using Connexion",
+    "year": "2016",
+    "version": "0.1.0",
+    "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"]
+}

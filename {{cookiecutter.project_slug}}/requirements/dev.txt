@@ -1,0 +1,8 @@
+flask 
+click
+gunicorn
+jsonmodels
+tinydb-jsonorm
+json-logging-py
+connexion
+

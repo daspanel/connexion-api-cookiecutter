@@ -1,0 +1,5 @@
+#!/bin/sh
+{% import 'include.jinja' as myctx with context %}
+set -e
+
+bumpversion major

@@ -1,0 +1,56 @@
+#!/bin/sh
+{% import 'include.jinja' as myctx with context %}
+set -e
+
+# This script create will do:
+#   - Initialize local git repository
+#   - Create a new repo on github.com, then pushes the local repository from the current directory to the new remote.
+
+# It is a fork of https://gist.github.com/robwierzbowski/5430952/.  Some of Rob's lines just didn't work for me, and to fix them I needed to make it more verbose so that a mere electrical engineer could understand it.
+
+# This script gets a username from .gitconfig.  If it indicates that your default username is an empty string, you can set it with
+# git config --add github.user YOUR_GIT_USERNAME
+
+#cd $(git rev-parse --show-cdup)
+#cd ../..
+
+# Gather constant vars
+PRIVATE_ANSWER={{ cookiecutter.project_private }}
+if [ "$PRIVATE_ANSWER" = "y" ]; then
+  PRIVACYWORD=private
+  PRIVATE_TF=true
+else
+  PRIVACYWORD=public
+  PRIVATE_TF=false
+fi
+
+echo "Will create a new *$PRIVACYWORD* repo named {{ myctx.github_repo }}"
+echo "on github.com in:"
+echo "    user account: {{ cookiecutter.github_username }}"
+echo "    organization: {{ cookiecutter.github_organization }}"
+echo "with this description:"
+echo {{ cookiecutter.project_short_description }}
+echo ""
+echo "Type 'y' to proceed, any other character to cancel."
+read OK
+if [ "$OK" != "y" ]; then
+  echo "User cancelled"
+  exit
+fi
+
+# Create repository in GITHUB
+# Curl some json to the github API oh damn we so fancy
+curl -u {{ cookiecutter.github_username }} {{ myctx.github_api }} -d \
+    "{\"name\": \"{{ myctx.github_repo }}\", \"description\": \"{{ cookiecutter.project_short_description }}\", \"private\": $PRIVATE_TF}"
+
+# Initialize local git
+git init
+git config user.email "{{ cookiecutter.email }}"
+git config user.name "{{ cookiecutter.full_name }}"
+git add .
+
+# Push first commit
+git commit -am "Project created."
+git remote add origin {{ myctx.repo_url }}.git
+git push -u origin master
+

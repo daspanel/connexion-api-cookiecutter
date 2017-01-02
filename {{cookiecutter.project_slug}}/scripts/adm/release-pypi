@@ -1,0 +1,8 @@
+#!/bin/sh
+{% import 'include.jinja' as myctx with context %}
+set -e
+
+#python setup.py sdist bdist_wheel upload --sign --identity="{{ cookiecutter.github_username }}"
+#python setup.py register bdist_wheel upload --sign --identity="{{ cookiecutter.github_username }}"
+
+python setup.py register bdist_wheel upload
